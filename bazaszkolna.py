@@ -23,7 +23,7 @@ def printStudents(number):
 
 
 while True:
-    userTypeName = input()
+    userTypeName = input().strip()
     if userTypeName == "uczen":
         classNumber = input()
         if classNumber not in classDict:
@@ -33,7 +33,7 @@ while True:
     elif userTypeName == "nauczyciel":
         teacherId = input()
         teacherDict[teacherId] = Nauczyciel(input())
-        teacherClasses = input()
+        teacherClasses = input()das
         while teacherClasses:
             teacherDict[teacherId].classes.add(teacherClasses)
             teacherClasses = input()
