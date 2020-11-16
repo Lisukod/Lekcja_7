@@ -1,24 +1,50 @@
 from sys import argv
 
+classDict = {}
+teacherDict = {}
+phrase = argv[1]
+
 
 class Klasa:
-    def __init__(self, number):
-        self.number = number
-
-
-class Uczen:
-    def __init__(self, student_id, classroom):
-        self.student_id = student_id
-        self.classroom = classroom
+    def __init__(self, students=set(), hometeacher=""):
+        self.students = students
+        self.hometeacher = hometeacher
 
 
 class Nauczyciel:
-    def __init__(self, teacher_id, subject, classrooms=set()):
-        self.teacher_id = teacher_id
+    def __init__(self, subject, classes=set()):
         self.subject = subject
-        self.classrooms = classrooms
+        self.classes = classes
 
 
-class Wychowawca:
-    def __init__(self, homeroom):
-        self.homeroom = homeroom
+while True:
+    userType = input()
+    if userType == "uczen":
+        classNumber = input()
+        if classNumber not in classDict:
+            classDict[classNumber] = Klasa({input()})
+        else:
+            classDict[classNumber].students.add(input())
+    elif userType == "nauczyciel":
+        teacherName = input()
+        teacherDict[teacherName] = Nauczyciel(input())
+        teacherClasses = input()
+        while teacherClasses:
+            teacherDict[teacherName].classes.add(teacherClasses)
+            teacherClasses = input()
+    elif userType == "wychowawca":
+        classNumber = input()
+        if classNumber not in classDict:
+            classDict[classNumber] = Klasa(hometeacher=input())
+        else:
+            classDict[classNumber].hometeacher = input()
+    elif userType == "koniec":
+        break
+    else:
+        print("Nieprawidłowy typ użytkownia!")
+        exit()
+if phrase in classDict:
+    print("Wychowawca klasy: {}".format(classDict[phrase].hometeacher))
+    print("Uczniowie klasy:")
+    for student in classDict[phrase].students:
+        print(student)
