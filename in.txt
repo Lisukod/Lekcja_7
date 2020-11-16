@@ -12,11 +12,15 @@ uczen
 4A
 S98734
 nauczyciel
-T93840H
+T93840
 matematyka
 4A
 2C
 
+uczen
+4a
+S98753
 wychowawca
 4A
 T93840H
+koniec

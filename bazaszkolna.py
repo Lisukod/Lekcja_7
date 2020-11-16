@@ -2,7 +2,7 @@ from sys import argv
 
 classDict = {}
 teacherDict = {}
-phrase = "argv[1]"
+phrase = argv[1]
 
 
 class Klasa:
@@ -33,9 +33,11 @@ while True:
     elif userTypeName == "nauczyciel":
         teacherId = input()
         teacherDict[teacherId] = Nauczyciel(input())
-        teacherClasses = input()das
+        teacherClasses = input()
         while teacherClasses:
             teacherDict[teacherId].classes.add(teacherClasses)
+            if teacherClasses not in classDict:
+                classDict[teacherClasses] = Klasa()
             teacherClasses = input()
     elif userTypeName == "wychowawca":
         classNumber = input()
@@ -48,7 +50,7 @@ while True:
     else:
         print("Nieprawidłowy typ użytkownia!")
         exit()
-if phrase in classDict:
+if phrase in classDict.keys():
     print("Wychowawca klasy: {}".format(classDict[phrase].hometeacher))
     print("Uczniowie klasy:")
     printStudents(phrase)
@@ -57,11 +59,12 @@ elif phrase[-1] == "H":
         if classHTeacher.hometeacher == phrase:
             printStudents(number)
             break
-elif phrase[1] == "T":
+elif phrase[0] == "T":
+    print("Wychowawcy:")
     for classNumber in teacherDict[phrase].classes:
-        print("Wychowawcy:")
-        print(classDict[classNumber].hometeacher)
-elif phrase[1] == "S":
+        if phrase in classDict[classNumber].hometeacher:
+            print(classDict[classNumber].hometeacher)
+elif phrase[0] == "S":
     classNumber = ""
     for number, student in classDict.items():
         if phrase in student.students:
@@ -69,9 +72,7 @@ elif phrase[1] == "S":
     for teacherId, teacherData in teacherDict.items():
         if classNumber in teacherData.classes:
             print(
-                "Przedmiot: {}, Nauczyciel: {}".format(
-                    teacherData.subject, teacherId
-                )
+                "Przedmiot: {}, Nauczyciel: {}".format(teacherData.subject, teacherId)
             )
 else:
     print("Nie podano argumentu")
