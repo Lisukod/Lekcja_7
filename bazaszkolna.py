@@ -2,7 +2,7 @@ from sys import argv
 
 classDict = {}
 teacherDict = {}
-phrase = argv[1]
+phrase = "argv[1]"
 
 
 class Klasa:
@@ -17,28 +17,33 @@ class Nauczyciel:
         self.classes = classes
 
 
+def printStudents(number):
+    for student in classDict[number].students:
+        print(student)
+
+
 while True:
-    userType = input()
-    if userType == "uczen":
+    userTypeName = input()
+    if userTypeName == "uczen":
         classNumber = input()
         if classNumber not in classDict:
             classDict[classNumber] = Klasa({input()})
         else:
             classDict[classNumber].students.add(input())
-    elif userType == "nauczyciel":
-        teacherName = input()
-        teacherDict[teacherName] = Nauczyciel(input())
+    elif userTypeName == "nauczyciel":
+        teacherId = input()
+        teacherDict[teacherId] = Nauczyciel(input())
         teacherClasses = input()
         while teacherClasses:
-            teacherDict[teacherName].classes.add(teacherClasses)
+            teacherDict[teacherId].classes.add(teacherClasses)
             teacherClasses = input()
-    elif userType == "wychowawca":
+    elif userTypeName == "wychowawca":
         classNumber = input()
         if classNumber not in classDict:
             classDict[classNumber] = Klasa(hometeacher=input())
         else:
             classDict[classNumber].hometeacher = input()
-    elif userType == "koniec":
+    elif userTypeName == "koniec":
         break
     else:
         print("Nieprawidłowy typ użytkownia!")
@@ -46,5 +51,27 @@ while True:
 if phrase in classDict:
     print("Wychowawca klasy: {}".format(classDict[phrase].hometeacher))
     print("Uczniowie klasy:")
-    for student in classDict[phrase].students:
-        print(student)
+    printStudents(phrase)
+elif phrase[-1] == "H":
+    for number, classHTeacher in classDict.items():
+        if classHTeacher.hometeacher == phrase:
+            printStudents(number)
+            break
+elif phrase[1] == "T":
+    for classNumber in teacherDict[phrase].classes:
+        print("Wychowawcy:")
+        print(classDict[classNumber].hometeacher)
+elif phrase[1] == "S":
+    classNumber = ""
+    for number, student in classDict.items():
+        if phrase in student.students:
+            classNumber = number
+    for teacherId, teacherData in teacherDict.items():
+        if classNumber in teacherData.classes:
+            print(
+                "Przedmiot: {}, Nauczyciel: {}".format(
+                    teacherData.subject, teacherId
+                )
+            )
+else:
+    print("Nie podano argumentu")
